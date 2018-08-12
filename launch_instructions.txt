@@ -5,7 +5,7 @@
 2. navigate to SAMFiles
 3. make deploy.sh executeable, 'chmod +x deploy.sh'
 4. Navigate back to Sam-and-Docker
-5. Build the Docker 'docker build -t antleypk_7:1.0 . ' 
+5. Build the Docker 'docker build -t antleypk:1.0 . ' 
 6. Locate your image id ('docker ps' will print a list)
 7. Locate your AWS region, your secret key id, and your secret key
 8. Run the docker, with your credientals added in as args::  sudo docker run -d -t -i -e AWS_DEFAULT_REGION='modify_image' -e AWS_ACCESS_KEY_ID='modify' -e AWS_SECRET_ACCESS_KEY='modify' modify_image_id  
