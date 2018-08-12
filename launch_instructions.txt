@@ -1,0 +1,9 @@
+::DEVELOPERS PLEASE NOTE:: This Docker invokes a SAM template that deploys AWS resources that you will be billed for.
+
+0. Clone this repository.
+1. navigate to the top level folder, SAM-and-Docker
+2. Build the Docker 'docker build -t antleypk_7:1.0 . ' 
+3. Locate your image id ('docker ps' will print a list)
+4. Locate your AWS region, your secret key id, and your secret key
+5. Run the docker, with your credientals added in as args::  sudo docker run -d -t -i -e AWS_DEFAULT_REGION='modify_image' -e AWS_ACCESS_KEY_ID='modify' -e AWS_SECRET_ACCESS_KEY='modify' modify_image_id  
+6. Kick back, you have successfully, injested a dataset, created serverless functions, and connected those functions to an api to surfaced the data
