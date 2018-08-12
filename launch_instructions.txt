@@ -2,8 +2,11 @@
 
 0. Clone this repository.
 1. navigate to the top level folder, SAM-and-Docker
-2. Build the Docker 'docker build -t antleypk_7:1.0 . ' 
-3. Locate your image id ('docker ps' will print a list)
-4. Locate your AWS region, your secret key id, and your secret key
-5. Run the docker, with your credientals added in as args::  sudo docker run -d -t -i -e AWS_DEFAULT_REGION='modify_image' -e AWS_ACCESS_KEY_ID='modify' -e AWS_SECRET_ACCESS_KEY='modify' modify_image_id  
-6. Kick back, you have successfully, injested a dataset, created serverless functions, and connected those functions to an api to surfaced the data
+2. navigate to SAMFiles
+3. make deploy.sh executeable, 'chmod +x deploy.sh'
+4. Navigate back to Sam-and-Docker
+5. Build the Docker 'docker build -t antleypk_7:1.0 . ' 
+6. Locate your image id ('docker ps' will print a list)
+7. Locate your AWS region, your secret key id, and your secret key
+8. Run the docker, with your credientals added in as args::  sudo docker run -d -t -i -e AWS_DEFAULT_REGION='modify_image' -e AWS_ACCESS_KEY_ID='modify' -e AWS_SECRET_ACCESS_KEY='modify' modify_image_id  
+9. Kick back, you have successfully, injested a dataset, created serverless functions, and connected those functions to an api to surfaced the data
