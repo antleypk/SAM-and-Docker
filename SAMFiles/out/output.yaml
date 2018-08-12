@@ -1,0 +1,137 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: antleypk solution
+Resources:
+  ConfigLambdaPermission:
+    DependsOn:
+    - ProjectAPI
+    - SelectAll
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: SelectAll
+      Principal: apigateway.amazonaws.com
+    Type: AWS::Lambda::Permission
+  ConfigLambdaPermission1:
+    DependsOn:
+    - ProjectAPI
+    - CountOfObstacles
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: CountOfObstacles
+      Principal: apigateway.amazonaws.com
+    Type: AWS::Lambda::Permission
+  ConfigLambdaPermission2:
+    DependsOn:
+    - ProjectAPI
+    - ObstaclesByLocation
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: ObstaclesByLocation
+      Principal: apigateway.amazonaws.com
+    Type: AWS::Lambda::Permission
+  CountOfObstacles:
+    Properties:
+      CodeUri: s3://ninja-warrior-sam/032ada8b3ea0613436fad6e8c40f9037
+      Events:
+        MyEndpoint:
+          Properties:
+            Method: get
+            Path: /allobjects
+            RestApiId:
+              Ref: ProjectAPI
+          Type: Api
+      FunctionName: SAMCountOfObstacles
+      Handler: CountOfObstacles.lambda_handler
+      MemorySize: 128
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonS3FullAccess
+      - AmazonAPIGatewayInvokeFullAccess
+      Runtime: python3.6
+      Timeout: 30
+    Type: AWS::Serverless::Function
+  ObstaclesByLocation:
+    Properties:
+      CodeUri: s3://ninja-warrior-sam/032ada8b3ea0613436fad6e8c40f9037
+      Events:
+        MyEndpoint:
+          Properties:
+            Method: get
+            Path: /allobjects
+            RestApiId:
+              Ref: ProjectAPI
+          Type: Api
+      FunctionName: SAMAllObstaclesByLocation
+      Handler: ObstaclesByLocation.lambda_handler
+      MemorySize: 128
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonS3FullAccess
+      - AmazonAPIGatewayInvokeFullAccess
+      Runtime: python3.6
+      Timeout: 30
+    Type: AWS::Serverless::Function
+  ProjectAPI:
+    Properties:
+      DefinitionBody:
+        basePath: /Prod
+        info:
+          host: rn1cckfv31.execute-api.us-east-1.amazonaws.com
+          title: antleypkCode00
+          version: '1.0'
+        paths:
+          /allobjects:
+            get:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                type: aws_proxy
+                uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:153477074805:function:SAMAllObstacles/invocations
+          /countofobjects:
+            get:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                type: aws_proxy
+                uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:153477074805:function:SAMCountOfObstacles/invocations
+          /obstaclesbylocation:
+            get:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                type: aws_proxy
+                uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:153477074805:function:SAMAllObstaclesByLocation/invocations
+        schemes:
+        - https
+        swagger: '2.0'
+        x-amazon-apigateway-binary-media-types:
+        - '*/*'
+      StageName: Dev
+    Type: AWS::Serverless::Api
+  SelectAll:
+    Properties:
+      CodeUri: s3://ninja-warrior-sam/032ada8b3ea0613436fad6e8c40f9037
+      Events:
+        MyEndpoint:
+          Properties:
+            Method: get
+            Path: /allobjects
+            RestApiId:
+              Ref: ProjectAPI
+          Type: Api
+      FunctionName: SAMAllObstacles
+      Handler: SelectAll.lambda_handler
+      MemorySize: 128
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - AmazonS3FullAccess
+      - AmazonAPIGatewayInvokeFullAccess
+      Runtime: python3.6
+      Timeout: 30
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
